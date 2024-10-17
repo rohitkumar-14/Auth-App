@@ -1,5 +1,4 @@
 
-"use client";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSignUp } from "@clerk/nextjs";
