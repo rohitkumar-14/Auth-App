@@ -28,10 +28,10 @@ const Signup = () => {
         emailAddress,
         password,
       });
-      // send the email.
+   
       await signUp.prepareEmailAddressVerification({strategy: "email_code"});
 
-      // change the UI to our pending section.
+   
       setVerifying(true);
     } catch (err: any) {
       setClerkError(err.errors[0].message);
