@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function Home() {
   const { isSignedIn, isLoaded } = useUser();
@@ -13,5 +14,19 @@ export default function Home() {
     }
   }, [isLoaded, isSignedIn, router]);
 
-  return null;
+  return (
+    <>
+      <div className="flex align-middle justify-between">
+        <h1 className="text-3xl text-bold">Hello , welcome to auth app</h1>
+        <header>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </header>
+      </div>
+    </>
+  );
 }
