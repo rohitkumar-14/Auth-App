@@ -40,7 +40,6 @@ import {
 
 // Define your Todo type
 export type Todo = {
-  id: number; // Changed to number to match Date.now()
   title: string;
   status: "completed" | "pending" | "in-progress";
   priority: "Medium" | "High" | "Low";
@@ -146,7 +145,6 @@ export function TodoTable() {
     if (todo.trim() === "") return;
 
     const newTodo: Todo = {
-      id: Date.now(),
       title: todo,
       status: "pending",
       priority: priority, // Ensure priority is correctly typed
@@ -258,28 +256,6 @@ export function TodoTable() {
           </TableBody>
         </Table>
       </div>
-
-      {/* {isModalOpen && (
-        <div className="modal">
-          <h2>Add Todo</h2>
-          <form onSubmit={handleAddTodo}>
-            <Input
-              type="text"
-              value={todo}
-              onChange={(e) => setTodo(e.target.value)}
-              placeholder="Todo Title"
-              required
-            />
-            <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
-              <option value="Low">Low</option>
-            </select>
-            <Button type="submit">Add Todo</Button>
-            <Button type="button" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-          </form>
-        </div>
-      )} */}
       {isModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
