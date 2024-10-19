@@ -12,11 +12,11 @@ export default function Home() {
   const { isSignedIn, isLoaded, user } = useUser();
   const router = useRouter();
   // const [todo, setTodo] = useState("");
-  type Todo = {
-  text: string;
-  id: number;
-  completed: boolean;
-};
+//   type Todo = {
+//   text: string;
+//   id: number;
+//   completed: boolean;
+// };
 
 // const [todos, setTodos] = useState<Todo[]>([]);
   // const [isModalOpen, setIsModalOpen] = useState(false);
