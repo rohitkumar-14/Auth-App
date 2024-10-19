@@ -58,7 +58,7 @@ export default function Home() {
         <div>
           <h1 className="text-3xl font-bold">Welcome back!</h1>
           <p className="text-gray-400 text-sm">
-            Here's a list of your tasks for this month!
+            `Here's a list of your tasks for this month!`
           </p>
         </div>
         <header className="flex items-center">
