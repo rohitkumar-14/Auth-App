@@ -27,7 +27,7 @@ export default function Home() {
     }
   }, [isLoaded, isSignedIn, user, router]);
 
-  const handleAddTodo = (e) => {
+  const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (todo.trim() === "") return;
 
