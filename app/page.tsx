@@ -5,15 +5,6 @@ import { useRouter } from "next/navigation";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { TodoTable } from "./components/Todo";
 
 export default function Home() {
@@ -46,19 +37,19 @@ export default function Home() {
     localStorage.setItem(user.id, JSON.stringify(newTodos));
   };
 
-  const toggleCompleted = (id) => {
-    const updatedTodos = todos.map((item) =>
-      item.id === id ? { ...item, completed: !item.completed } : item
-    );
-    setTodos(updatedTodos);
-    localStorage.setItem(user.id, JSON.stringify(updatedTodos));
-  };
+  // const toggleCompleted = (id) => {
+  //   const updatedTodos = todos.map((item) =>
+  //     item.id === id ? { ...item, completed: !item.completed } : item
+  //   );
+  //   setTodos(updatedTodos);
+  //   localStorage.setItem(user.id, JSON.stringify(updatedTodos));
+  // };
 
-  const deleteTodo = (id) => {
-    const filteredTodos = todos.filter((item) => item.id !== id);
-    setTodos(filteredTodos);
-    localStorage.setItem(user.id, JSON.stringify(filteredTodos));
-  };
+  // const deleteTodo = (id) => {
+  //   const filteredTodos = todos.filter((item) => item.id !== id);
+  //   setTodos(filteredTodos);
+  //   localStorage.setItem(user.id, JSON.stringify(filteredTodos));
+  // };
 
   return (
     <>

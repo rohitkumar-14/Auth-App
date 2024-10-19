@@ -509,28 +509,28 @@ export function TodoTable() {
     }
   };
 
-  const toggleCompleted = (id: number) => {
-    const updatedTodos = todos.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            status: item.status === "completed" ? "pending" : "completed",
-          }
-        : item
-    );
-    setTodos(updatedTodos);
-    if (user && user.id) {
-      localStorage.setItem(user.id, JSON.stringify(updatedTodos));
-    }
-  };
+  // const toggleCompleted = (id: number) => {
+  //   const updatedTodos = todos.map((item) =>
+  //     item.id === id
+  //       ? {
+  //           ...item,
+  //           status: item.status === "completed" ? "pending" : "completed",
+  //         }
+  //       : item
+  //   );
+  //   setTodos(updatedTodos);
+  //   if (user && user.id) {
+  //     localStorage.setItem(user.id, JSON.stringify(updatedTodos));
+  //   }
+  // };
 
-  const deleteTodo = (id: number) => {
-    const filteredTodos = todos.filter((item) => item.id !== id);
-    setTodos(filteredTodos);
-    if (user && user.id) {
-      localStorage.setItem(user.id, JSON.stringify(filteredTodos));
-    }
-  };
+  // const deleteTodo = (id: number) => {
+  //   const filteredTodos = todos.filter((item) => item.id !== id);
+  //   setTodos(filteredTodos);
+  //   if (user && user.id) {
+  //     localStorage.setItem(user.id, JSON.stringify(filteredTodos));
+  //   }
+  // };
 
   const table = useReactTable({
     data: todos,
