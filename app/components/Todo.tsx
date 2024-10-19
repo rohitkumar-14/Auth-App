@@ -469,7 +469,10 @@ export function TodoTable() {
     if (isLoaded && !isSignedIn) {
       router.push("/sign-up");
     } else if (user && user.id) {
-      const savedTodos = JSON.parse(localStorage.getItem(user.id)) || [];
+      const savedTodos = localStorage.getItem(user.id)
+  ? JSON.parse(localStorage.getItem(user.id) as string)
+  : [];
+
       setTodos(savedTodos);
     }
   }, [isLoaded, isSignedIn, user, router]);
