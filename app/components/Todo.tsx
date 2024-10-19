@@ -39,14 +39,23 @@ import {
 } from "@/components/ui/table";
 
 // Define your Todo type
-export type Todo = {
-  title: string;
-  status: "completed" | "pending" | "in-progress";
-  priority: "Medium" | "High" | "Low";
+interface ITodo {
+  _id: string;
+  todo: string;
+  status: boolean;
+  priority: number;
+}
+const deleteTodo = async (id: string) => {
+  await fetch('/api/todos', {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id }),
+  });
+  setTodos(todos.filter(todo => todo._id !== id));
 };
 
 // Define your columns
-export const columns: ColumnDef<Todo>[] = [
+export const columns: ColumnDef<ITodo>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -67,26 +76,29 @@ export const columns: ColumnDef<Todo>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "title",
+    accessorKey: "todo", // Ensure this matches the ITodo interface
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Title
+          Task
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("title")}</div>,
+    cell: ({ row }) => <div>{row.getValue("todo")}</div>, // Displaying todo field
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("status")}</div>,
+    cell: ({ row }) => <div className="capitalize">{row.getValue("status") ? "Completed" : "Pending"}</div>,
   },
   {
     accessorKey: "priority",
     header: "Priority",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("priority")}</div>,
+    cell: ({ row }) => {
+      const priority = row.getValue("priority");
+      return <div>{priority === 3 ? "High" : priority === 2 ? "Medium" : "Low"}</div>;
+    },
   },
   {
     id: "actions",
@@ -104,12 +116,12 @@ export const columns: ColumnDef<Todo>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(todo.id.toString())}>
+            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(todo._id)}>
               Copy Todo ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit Todo</DropdownMenuItem>
-            <DropdownMenuItem>Delete Todo</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => deleteTodo(todo._id)}>Delete Todo</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -125,39 +137,44 @@ export function TodoTable() {
   const { isSignedIn, isLoaded, user } = useUser();
   const router = useRouter();
   const [todo, setTodo] = useState("");
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
- const [priority, setPriority] = useState<"Medium" | "High" | "Low">("Medium");
+  const [newTodo, setNewTodo] = useState('');
+  const [priority, setPriority] = useState(1);
 
+  const fetchTodos = async () => {
+    const response = await fetch('/api/todos');
+    const data = await response.json();
+    setTodos(data);
+};
  useEffect(() => {
     if (isLoaded && !isSignedIn) {
       router.push("/sign-up");
     } else if (user && user.id) {
-      const savedTodos = localStorage.getItem(user.id)
-        ? JSON.parse(localStorage.getItem(user.id) as string)
-        : [];
-      setTodos(savedTodos);
+      fetchTodos();
     }
   }, [isLoaded, isSignedIn, user, router]);
 
-  const handleAddTodo = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (todo.trim() === "") return;
-
-    const newTodo: Todo = {
-      title: todo,
-      status: "pending",
-      priority: priority, // Ensure priority is correctly typed
+  const addTodo = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const response = await fetch('/api/todos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ todo: newTodo, priority, status: false }),
+        });
+        const data = await response.json();
+        setTodos([...todos, data]);
+        setNewTodo('');
+        setPriority(1);
     };
-
-    const newTodos = [...todos, newTodo];
-    setTodos(newTodos);
-    setTodo("");
-    setIsModalOpen(false);
-    if (user && user.id) {
-      localStorage.setItem(user.id, JSON.stringify(newTodos));
-    }
-  };
+  //   const deleteTodo = async (id: string) => {
+  //     await fetch('/api/todos', {
+  //         method: 'DELETE',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({ id }),
+  //     });
+  //     setTodos(todos.filter(todo => todo._id !== id));
+  // };
 
   // const toggleCompleted = (id: number) => {
   //   const updatedTodos = todos.map((item) =>
@@ -260,22 +277,22 @@ export function TodoTable() {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
               <h3 className="text-xl font-bold mb-4">Add New To-Do</h3>
-              <form onSubmit={handleAddTodo}>
+              <form onSubmit={addTodo}>
               <Input
               type="text"
-              value={todo}
-              onChange={(e) => setTodo(e.target.value)}
-              placeholder="Todo Title"
+              value={newTodo}
+              onChange={(e) => setNewTodo(e.target.value)}
+              placeholder="Add a new todo"
               required
             />
             <select
-                value={priority}
-                onChange={(e) => setPriority(e.target.value as "Medium" | "High" | "Low")}
-              >
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-              </select><br  />
+                    value={priority}
+                    onChange={(e) => setPriority(Number(e.target.value))}
+                >
+                    <option value={1}>Low</option>
+                    <option value={2}>Medium</option>
+                    <option value={3}>High</option>
+                </select><br  />
             <Button type="submit" className="mr-2">Add Todo</Button>
             <Button type="button" onClick={() => setIsModalOpen(false)}>Cancel</Button>
               </form>
