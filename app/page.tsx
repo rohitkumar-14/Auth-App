@@ -44,7 +44,8 @@ const [todos, setTodos] = useState<Todo[]>([]);
   setTodos(newTodos);
   setTodo("");
   setIsModalOpen(false);
-  localStorage.setItem(user.id, JSON.stringify(newTodos));
+  localStorage.setItem(user?.id ?? '', JSON.stringify(newTodos));
+
   };
 
   // const toggleCompleted = (id) => {
