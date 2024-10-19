@@ -12,7 +12,13 @@ export default function Home() {
   const { isSignedIn, isLoaded, user } = useUser();
   const router = useRouter();
   const [todo, setTodo] = useState("");
-  const [todos, setTodos] = useState([]);
+  type Todo = {
+  text: string;
+  id: number;
+  completed: boolean;
+};
+
+const [todos, setTodos] = useState<Todo[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -31,14 +37,14 @@ export default function Home() {
     e.preventDefault();
     if (todo.trim() === "") return;
 
-    const newTodos = [
-      ...todos,
-      { text: todo, id: Date.now(), completed: false },
-    ];
-    setTodos(newTodos);
-    setTodo("");
-    setIsModalOpen(false);
-    localStorage.setItem(user.id, JSON.stringify(newTodos));
+      const newTodos = [
+    ...todos,
+    { text: todo, id: Date.now(), completed: false },
+  ];
+  setTodos(newTodos);
+  setTodo("");
+  setIsModalOpen(false);
+  localStorage.setItem(user.id, JSON.stringify(newTodos));
   };
 
   // const toggleCompleted = (id) => {
