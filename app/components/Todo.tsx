@@ -628,11 +628,11 @@ export function TodoTable() {
               placeholder="Todo Title"
               required
             />
-            <select value={priority} onChange={(e) => setPriority(e.target.value)} className="py-2 px-4 bg-slate-100 border border-slate-400 m-2 rounded">
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
-              <option value="Low">Low</option>
-            </select><br  />
+            <select value={priority} onChange={(e) => setPriority(e.target.value as "Medium" | "High" | "Low")}>
+  <option value="Low">Low</option>
+  <option value="Medium">Medium</option>
+  <option value="High">High</option>
+</select><br  />
             <Button type="submit" className="mr-2">Add Todo</Button>
             <Button type="button" onClick={() => setIsModalOpen(false)}>Cancel</Button>
               </form>
