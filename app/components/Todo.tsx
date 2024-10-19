@@ -485,7 +485,6 @@ export function TodoTable() {
       id: Date.now(),
       title: todo,
       status: "pending",
-      priority,
     };
 
     const newTodos = [...todos, newTodo];
