@@ -463,40 +463,38 @@ export function TodoTable() {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [priority, setPriority] = useState("Medium");
+ const [priority, setPriority] = useState<"Medium" | "High" | "Low">("Medium");
 
-  useEffect(() => {
+ useEffect(() => {
     if (isLoaded && !isSignedIn) {
       router.push("/sign-up");
     } else if (user && user.id) {
       const savedTodos = localStorage.getItem(user.id)
-  ? JSON.parse(localStorage.getItem(user.id) as string)
-  : [];
-
+        ? JSON.parse(localStorage.getItem(user.id) as string)
+        : [];
       setTodos(savedTodos);
     }
   }, [isLoaded, isSignedIn, user, router]);
 
-const handleAddTodo = (e: React.FormEvent) => {
-  e.preventDefault();
-  if (todo.trim() === "") return;
+  const handleAddTodo = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (todo.trim() === "") return;
 
-  const newTodo: Todo = {
-    id: Date.now(),
-    title: todo,
-    status: "pending",
-    priority: priority, // Add the priority here
+    const newTodo: Todo = {
+      id: Date.now(),
+      title: todo,
+      status: "pending",
+      priority: priority, // Ensure priority is correctly typed
+    };
+
+    const newTodos = [...todos, newTodo];
+    setTodos(newTodos);
+    setTodo("");
+    setIsModalOpen(false);
+    if (user && user.id) {
+      localStorage.setItem(user.id, JSON.stringify(newTodos));
+    }
   };
-
-  const newTodos = [...todos, newTodo];
-  setTodos(newTodos);
-  setTodo("");
-  setIsModalOpen(false);
-
-  if (user && user.id) {
-    localStorage.setItem(user.id, JSON.stringify(newTodos));
-  }
-};
 
   // const toggleCompleted = (id: number) => {
   //   const updatedTodos = todos.map((item) =>
@@ -629,11 +627,14 @@ const handleAddTodo = (e: React.FormEvent) => {
               placeholder="Todo Title"
               required
             />
-            <select value={priority} onChange={(e) => setPriority(e.target.value as "Medium" | "High" | "Low")}>
-  <option value="Low">Low</option>
-  <option value="Medium">Medium</option>
-  <option value="High">High</option>
-</select><br  />
+            <select
+                value={priority}
+                onChange={(e) => setPriority(e.target.value as "Medium" | "High" | "Low")}
+              >
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select><br  />
             <Button type="submit" className="mr-2">Add Todo</Button>
             <Button type="button" onClick={() => setIsModalOpen(false)}>Cancel</Button>
               </form>
