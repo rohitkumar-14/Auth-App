@@ -24,13 +24,7 @@ export default function Home() {
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       router.push("/sign-up");
-    } else if (user) {
-      const savedTodos = localStorage.getItem(user.id)
-  ? JSON.parse(localStorage.getItem(user.id) as string)
-  : [];
-
-      setTodos(savedTodos);
-    }
+    } 
   }, [isLoaded, isSignedIn, user, router]);
 
   // const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
