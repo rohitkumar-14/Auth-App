@@ -455,7 +455,7 @@ export const columns: ColumnDef<Todo>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit Todo</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => deleteTodo(todo.id)}>
+            <DropdownMenuItem >
               Delete Todo
             </DropdownMenuItem>
           </DropdownMenuContent>
