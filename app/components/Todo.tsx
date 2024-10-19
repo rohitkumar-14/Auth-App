@@ -477,24 +477,26 @@ export function TodoTable() {
     }
   }, [isLoaded, isSignedIn, user, router]);
 
-  const handleAddTodo = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (todo.trim() === "") return;
+const handleAddTodo = (e: React.FormEvent) => {
+  e.preventDefault();
+  if (todo.trim() === "") return;
 
-    const newTodo: Todo = {
-      id: Date.now(),
-      title: todo,
-      status: "pending",
-    };
-
-    const newTodos = [...todos, newTodo];
-    setTodos(newTodos);
-    setTodo("");
-    setIsModalOpen(false);
-    if (user && user.id) {
-      localStorage.setItem(user.id, JSON.stringify(newTodos));
-    }
+  const newTodo: Todo = {
+    id: Date.now(),
+    title: todo,
+    status: "pending",
+    priority: priority, // Add the priority here
   };
+
+  const newTodos = [...todos, newTodo];
+  setTodos(newTodos);
+  setTodo("");
+  setIsModalOpen(false);
+
+  if (user && user.id) {
+    localStorage.setItem(user.id, JSON.stringify(newTodos));
+  }
+};
 
   // const toggleCompleted = (id: number) => {
   //   const updatedTodos = todos.map((item) =>
