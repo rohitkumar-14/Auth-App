@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
 
 import { TodoTable } from "./components/Todo";
 
@@ -19,7 +19,7 @@ export default function Home() {
 };
 
 const [todos, setTodos] = useState<Todo[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -33,20 +33,20 @@ const [todos, setTodos] = useState<Todo[]>([]);
     }
   }, [isLoaded, isSignedIn, user, router]);
 
-  const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (todo.trim() === "") return;
+  // const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (todo.trim() === "") return;
 
-      const newTodos = [
-    ...todos,
-    { text: todo, id: Date.now(), completed: false },
-  ];
-  setTodos(newTodos);
-  setTodo("");
-  setIsModalOpen(false);
-  localStorage.setItem(user?.id ?? '', JSON.stringify(newTodos));
+  //     const newTodos = [
+  //   ...todos,
+  //   { text: todo, id: Date.now(), completed: false },
+  // ];
+  // setTodos(newTodos);
+  // setTodo("");
+  // setIsModalOpen(false);
+  // localStorage.setItem(user?.id ?? '', JSON.stringify(newTodos));
 
-  };
+  // };
 
   // const toggleCompleted = (id) => {
   //   const updatedTodos = todos.map((item) =>
