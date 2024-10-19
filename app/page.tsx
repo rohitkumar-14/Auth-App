@@ -11,14 +11,14 @@ import { TodoTable } from "./components/Todo";
 export default function Home() {
   const { isSignedIn, isLoaded, user } = useUser();
   const router = useRouter();
-  const [todo, setTodo] = useState("");
+  // const [todo, setTodo] = useState("");
   type Todo = {
   text: string;
   id: number;
   completed: boolean;
 };
 
-const [todos, setTodos] = useState<Todo[]>([]);
+// const [todos, setTodos] = useState<Todo[]>([]);
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
