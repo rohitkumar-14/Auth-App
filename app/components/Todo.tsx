@@ -333,7 +333,7 @@
 //     </div>
 //   )
 // }
-"use client"
+"use client";
 
 import * as React from "react";
 import {
@@ -387,7 +387,10 @@ export const columns: ColumnDef<Todo>[] = [
     id: "select",
     header: ({ table }) => (
       <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
@@ -406,7 +409,9 @@ export const columns: ColumnDef<Todo>[] = [
     accessorKey: "title",
     header: ({ column }) => {
       return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Title
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -417,12 +422,16 @@ export const columns: ColumnDef<Todo>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("status")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("status")}</div>
+    ),
   },
   {
     accessorKey: "priority",
     header: "Priority",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("priority")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("priority")}</div>
+    ),
   },
   {
     id: "actions",
@@ -440,12 +449,15 @@ export const columns: ColumnDef<Todo>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(todo.id.toString())}>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(todo.id.toString())}>
               Copy Todo ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit Todo</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => deleteTodo(todo.id)}>Delete Todo</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => deleteTodo(todo.id)}>
+              Delete Todo
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -455,8 +467,11 @@ export const columns: ColumnDef<Todo>[] = [
 
 export function TodoTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const { isSignedIn, isLoaded, user } = useUser();
   const router = useRouter();
@@ -496,7 +511,12 @@ export function TodoTable() {
 
   const toggleCompleted = (id: number) => {
     const updatedTodos = todos.map((item) =>
-      item.id === id ? { ...item, status: item.status === "completed" ? "pending" : "completed" } : item
+      item.id === id
+        ? {
+            ...item,
+            status: item.status === "completed" ? "pending" : "completed",
+          }
+        : item
     );
     setTodos(updatedTodos);
     if (user && user.id) {
@@ -537,12 +557,21 @@ export function TodoTable() {
         <Input
           placeholder="Filter tasks..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn("title")?.setFilterValue(event.target.value)}
+          onChange={(event) =>
+            table.getColumn("title")?.setFilterValue(event.target.value)
+          }
           className="max-w-sm"
         />
-        <Button variant="outline" className="ml-2">Status</Button>
-        <Button variant="outline" className="ml-2">Priority</Button>
-        <Button variant="outline" className="ml-2" onClick={() => setIsModalOpen(true)}>
+        <Button variant="outline" className="ml-2">
+          Status
+        </Button>
+        <Button variant="outline" className="ml-2">
+          Priority
+        </Button>
+        <Button
+          variant="outline"
+          className="ml-2"
+          onClick={() => setIsModalOpen(true)}>
           Add Todo
         </Button>
         <DropdownMenu>
@@ -552,16 +581,18 @@ export function TodoTable() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {table.getAllColumns().filter((column) => column.getCanHide()).map((column) => (
-              <DropdownMenuCheckboxItem
-                key={column.id}
-                className="capitalize"
-                checked={column.getIsVisible()}
-                onCheckedChange={(value) => column.toggleVisibility(!!value)}
-              >
-                {column.id}
-              </DropdownMenuCheckboxItem>
-            ))}
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  className="capitalize"
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}>
+                  {column.id}
+                </DropdownMenuCheckboxItem>
+              ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -572,7 +603,12 @@ export function TodoTable() {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead key={header.id}>
-                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                   </TableHead>
                 ))}
               </TableRow>
@@ -580,7 +616,9 @@ export function TodoTable() {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} className={row.getIsSelected() ? "bg-gray-100" : ""}>
+              <TableRow
+                key={row.id}
+                className={row.getIsSelected() ? "bg-gray-100" : ""}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -614,28 +652,36 @@ export function TodoTable() {
         </div>
       )} */}
       {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-              <h3 className="text-xl font-bold mb-4">Add New To-Do</h3>
-              <form onSubmit={handleAddTodo}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+            <h3 className="text-xl font-bold mb-4">Add New To-Do</h3>
+            <form onSubmit={handleAddTodo}>
               <Input
-              type="text"
-              value={todo}
-              onChange={(e) => setTodo(e.target.value)}
-              placeholder="Todo Title"
-              required
-            />
-            <select value={priority} onChange={(e) => setPriority(e.target.value)} className="py-2 px-4 bg-slate-100 border border-slate-400 m-2 rounded">
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
-              <option value="Low">Low</option>
-            </select><br  />
-            <Button type="submit" className="mr-2">Add Todo</Button>
-            <Button type="button" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-              </form>
-            </div>
-            </div>
-        )}
+                type="text"
+                value={todo}
+                onChange={(e) => setTodo(e.target.value)}
+                placeholder="Todo Title"
+                required
+              />
+              <select
+                value={priority}
+                onChange={(e) => setPriority(e.target.value)}
+                className="py-2 px-4 bg-slate-100 border border-slate-400 m-2 rounded">
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Low">Low</option>
+              </select>
+              <br />
+              <Button type="submit" className="mr-2">
+                Add Todo
+              </Button>
+              <Button type="button" onClick={() => setIsModalOpen(false)}>
+                Cancel
+              </Button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

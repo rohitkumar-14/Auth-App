@@ -83,7 +83,6 @@ export default function Home() {
 
       <SignedIn>
         <div className="mt-8 p-5">
-         
           <TodoTable />
         </div>
 
@@ -92,23 +91,27 @@ export default function Home() {
             <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
               <h3 className="text-xl font-bold mb-4">Add New To-Do</h3>
               <form onSubmit={handleAddTodo}>
-              <Input
-              type="text"
-              value={todo}
-              onChange={(e) => setTodo(e.target.value)}
-              placeholder="Todo Title"
-              required
-            />
-            <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
-              <option value="Low">Low</option>
-            </select>
-            <Button type="submit">Add Todo</Button>
-            <Button type="button" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+                <Input
+                  type="text"
+                  value={todo}
+                  onChange={(e) => setTodo(e.target.value)}
+                  placeholder="Todo Title"
+                  required
+                />
+                <select
+                  value={priority}
+                  onChange={(e) => setPriority(e.target.value)}>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                  <option value="Low">Low</option>
+                </select>
+                <Button type="submit">Add Todo</Button>
+                <Button type="button" onClick={() => setIsModalOpen(false)}>
+                  Cancel
+                </Button>
               </form>
             </div>
-            </div>
+          </div>
         )}
       </SignedIn>
     </>

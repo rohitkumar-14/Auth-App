@@ -6,7 +6,7 @@ import SignupForm from "@/app/components/SignupForm";
 import VerifyForm from "@/app/components/VerifyForm";
 
 const Signup = () => {
-  const {isLoaded, signUp, setActive} = useSignUp();
+  const { isLoaded, signUp, setActive } = useSignUp();
   const [clerkError, setClerkError] = useState("");
   const router = useRouter();
   const [verifying, setVerifying] = useState(false);
@@ -28,10 +28,9 @@ const Signup = () => {
         emailAddress,
         password,
       });
-   
-      await signUp.prepareEmailAddressVerification({strategy: "email_code"});
 
-   
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+
       setVerifying(true);
     } catch (err: any) {
       setClerkError(err.errors[0].message);
@@ -51,7 +50,7 @@ const Signup = () => {
       }
 
       if (completeSignUp.status === "complete") {
-        await setActive({session: completeSignUp.createdSessionId});
+        await setActive({ session: completeSignUp.createdSessionId });
         router.push("/");
       }
     } catch (err) {
@@ -61,13 +60,13 @@ const Signup = () => {
 
   return (
     <>
-      {!verifying ?
-        (<SignupForm signUpWithEmail={signUpWithEmail} clerkError={clerkError} />) :
-        (<VerifyForm handleVerify={handleVerify} code={code} setCode={setCode} />)
-      }
+      {!verifying ? (
+        <SignupForm signUpWithEmail={signUpWithEmail} clerkError={clerkError} />
+      ) : (
+        <VerifyForm handleVerify={handleVerify} code={code} setCode={setCode} />
+      )}
     </>
-  )
-
+  );
 };
 
 export default Signup;

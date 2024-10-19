@@ -46,17 +46,18 @@ const SignupForm = ({ signUpWithEmail, clerkError }: SignUpFormProps) => {
           <div className="w-[50%] col-6 h-full bg-black p-16 rounded-tl-3xl rounded-bl-3xl">
             <p className="text-white text-lg">Acme Inc</p>
             <p className="text-white text-lg mt-[450px]">
-              “This library has saved me countless hours of work and
-              helped me deliver stunning designs to my clients faster than ever
-              before.”<br /> <span className="text-sm text-">Sofia Davis</span>
+              “This library has saved me countless hours of work and helped me
+              deliver stunning designs to my clients faster than ever before.”
+              <br /> <span className="text-sm text-">Sofia Davis</span>
             </p>
           </div>
 
           <div className="w-[50%] col-6 p-20  border-none">
-          
-            <Link href="/sign-in" className=" text-black text-bold py-2 px-4 m-[530px] mt-[-40px]">
-                Login
-              </Link>
+            <Link
+              href="/sign-in"
+              className=" text-black text-bold py-2 px-4 m-[530px] mt-[-40px]">
+              Login
+            </Link>
             <Card className="w-[450px] border-none p-8 bg-transparent m-8">
               <CardHeader>
                 <CardTitle className="text-2xl text-center">
