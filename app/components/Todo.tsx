@@ -492,12 +492,11 @@ export function TodoTable() {
   const handleAddTodo = (e: React.FormEvent) => {
     e.preventDefault();
     if (todo.trim() === "") return;
-
+   
     const newTodo: Todo = {
       id: Date.now(),
       title: todo,
       status: "pending",
-      priority,
     };
 
     const newTodos = [...todos, newTodo];
@@ -663,14 +662,11 @@ export function TodoTable() {
                 placeholder="Todo Title"
                 required
               />
-              <select
-                value={priority}
-                onChange={(e) => setPriority(e.target.value)}
-                className="py-2 px-4 bg-slate-100 border border-slate-400 m-2 rounded">
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-                <option value="Low">Low</option>
-              </select>
+              <select value={priority} onChange={(e) => setPriority(e.target.value as "Medium" | "High" | "Low")}>
+  <option value="Low">Low</option>
+  <option value="Medium">Medium</option>
+  <option value="High">High</option>
+</select>
               <br />
               <Button type="submit" className="mr-2">
                 Add Todo
