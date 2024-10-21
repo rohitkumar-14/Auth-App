@@ -251,7 +251,7 @@ export function TodoTable() {
       fetchTodos();
     } catch (error) {
       console.error("Error:", error);
-      setGeneratedText("Failed to generate text or add todo");
+      setDescription("Failed to generate text or add todo");
     }
   };
   
