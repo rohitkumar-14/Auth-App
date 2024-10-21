@@ -5,6 +5,7 @@ export interface ITodo extends Document {
     todo: string;
     status: boolean;
     priority: number;
+    description: string;
 }
 
 const TodoSchema: Schema = new Schema({
@@ -18,6 +19,10 @@ const TodoSchema: Schema = new Schema({
     },
     priority: {
         type: Number,
+        required: true,
+    },
+    description: {
+        type: String,
         required: true,
     },
 });

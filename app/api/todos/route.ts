@@ -11,11 +11,12 @@ export async function GET() {
 
 export async function POST(request: Request) {
     await dbConnect();
-    const { todo, status, priority } = await request.json();
+    const { todo, status, priority, description } = await request.json(); 
     const newTodo = new Todo({
         todo,
         status,
         priority,
+        description 
     });
     await newTodo.save();
     return NextResponse.json(newTodo);
