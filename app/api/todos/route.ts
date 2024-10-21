@@ -1,6 +1,6 @@
 // app/api/todos/route.ts
 import dbConnect from '../../lib/dbConnect';
-import Todo, { ITodo } from '../../models/Todo';
+import Todo from '../../models/Todo';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
