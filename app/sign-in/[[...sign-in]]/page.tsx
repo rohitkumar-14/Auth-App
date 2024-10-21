@@ -1,11 +1,11 @@
 "use client";
-import {useState} from "react";
-import {useRouter} from "next/navigation";
-import {useSignIn} from "@clerk/nextjs";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSignIn } from "@clerk/nextjs";
 import SigninForm from "@/app/components/SigninForm";
 
 const Signin = () => {
-  const {isLoaded, signIn, setActive} = useSignIn();
+  const { isLoaded, signIn, setActive } = useSignIn();
   const [clerkError, setClerkError] = useState("");
   const router = useRouter();
 
@@ -27,7 +27,7 @@ const Signin = () => {
       });
       if (result.status === "complete") {
         console.log(result);
-        await setActive({session: result.createdSessionId});
+        await setActive({ session: result.createdSessionId });
         router.push("/");
       } else {
         console.log(result);
