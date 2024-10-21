@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
@@ -24,10 +24,7 @@ export default function Home() {
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       router.push("/sign-up");
-    } else if (user) {
-      const savedTodos = JSON.parse(localStorage.getItem(user.id)) || [];
-      setTodos(savedTodos);
-    }
+    } 
   }, [isLoaded, isSignedIn, user, router]);
 
   // const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,7 +62,7 @@ export default function Home() {
         <div>
           <h1 className="text-3xl font-bold">Welcome back!</h1>
           <p className="text-gray-400 text-sm">
-            Here's a list of your tasks for this month!
+            {"Here's a list of your tasks for this month!"}
           </p>
         </div>
         <header className="flex items-center">
@@ -82,6 +79,7 @@ export default function Home() {
 
       <SignedIn>
         <div className="mt-8 p-5">
+         
           <TodoTable />
         </div>
 
