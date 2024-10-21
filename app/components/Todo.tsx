@@ -72,7 +72,7 @@ export const columns: ColumnDef<ITodo>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "todo", // Ensure this matches the ITodo interface
+    accessorKey: "todo",
     header: ({ column }) => {
       return (
         <Button
@@ -83,7 +83,7 @@ export const columns: ColumnDef<ITodo>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("todo")}</div>, // Displaying todo field
+    cell: ({ row }) => <div>{row.getValue("todo")}</div>, 
   },
   {
     accessorKey: "status",
@@ -105,7 +105,7 @@ export const columns: ColumnDef<ITodo>[] = [
     },
   },
   {
-    accessorKey: "description", // Use the correct field name
+    accessorKey: "description", 
     header: "Description",
     cell: ({ row }) => <div>{row.getValue("description")}</div>,
   },
@@ -154,7 +154,6 @@ export function TodoTable() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [priority, setPriority] = useState(1);
   const [textInput, setTextInput] = useState<string>("");
-  const [generatedText, setGeneratedText] = useState<string>("");
   const [description, setDescription] = useState<string>("");
  
   // const addTodoAndGenerateText = async (e: React.FormEvent) => {
@@ -223,9 +222,6 @@ export function TodoTable() {
   
       const result = await response.json();
       const generatedTextResult = result.generatedText || "No text generated";
-      setGeneratedText(generatedTextResult);
-  
-      // Update the description with the generated text
       setDescription(generatedTextResult);
   
       const todoResponse = await fetch("/api/todos", {
