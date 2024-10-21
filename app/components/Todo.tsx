@@ -206,26 +206,28 @@ export function TodoTable() {
   // };
   const addTodoAndGenerateText = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     try {
+      const textPrompt = `Generate a todo description based on: "${textInput}"`;
       const response = await fetch("/api/generate-text", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt: textInput }),
+        body: JSON.stringify({ prompt: textPrompt }),
       });
-
+  
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
+  
       const result = await response.json();
-      console.log(result);
-      console.log(result.generatedText);
       const generatedTextResult = result.generatedText || "No text generated";
       setGeneratedText(generatedTextResult);
-console.log(description);
+  
+      // Update the description with the generated text
+      setDescription(generatedTextResult);
+  
       const todoResponse = await fetch("/api/todos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -233,27 +235,29 @@ console.log(description);
           todo: textInput,  
           priority,
           status: false,
-          description: generatedText, // Ensure description is sent here
+          description: generatedTextResult, // Use the generated description
         }),
       });
-
+  
       if (!todoResponse.ok) {
         throw new Error("Failed to add todo");
       }
-
+  
       const newTodo = await todoResponse.json();
       setTodos((prevTodos) => [...prevTodos, newTodo]);
-      setPriority(1); 
-      setTextInput(""); 
+  
+      // Reset form values
+      setPriority(1);
+      setTextInput("");
+      setDescription("");
       setIsModalOpen(false);
-      console.log("todoResponse",todoResponse);
-      console.log("newTodo",newTodo);
-      console.log("todos",todos);
+  
+      fetchTodos();
     } catch (error) {
       console.error("Error:", error);
       setGeneratedText("Failed to generate text or add todo");
     }
-};
+  };
   
   const fetchTodos = async () => {
     const response = await fetch("/api/todos");
